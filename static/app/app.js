@@ -11,6 +11,7 @@ dashboard.directive('groceryList', function() {
 				"Boissons",
 				"Autre"
 			];
+			$scope.categories =[{"name":"Fruits et légumes","items":[{"quantity":1,"name":"sdfsdf","isInCaddie":false}]}];
 			$scope.newItem = {quantity:1};
 			$scope.showNewItem = false;
 			
