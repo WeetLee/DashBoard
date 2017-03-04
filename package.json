@@ -1,9 +1,0 @@
-{
-    "name": "DashBoard",
-    "version": "0.1.0",
-    "dependencies": {
-        "express": "~4",
-        "mongoose": "~4"
-    }
-
-}

@@ -1,0 +1,16 @@
+.incaddie {
+    text-decoration: line-through;
+    color: #aaa;
+}
+.grocery-title {
+    display: block;
+    /*width: auto;*/
+    margin: 10px;
+    padding: 10px;
+    background-color : DodgerBlue; 
+    color : white;
+    text-shadow: 2px 0 0 #005A9C, -2px 0 0 #005A9C, 0 2px 0 #005A9C, 0 -2px 0 #005A9C, 1px 1px #005A9C, -1px -1px 0 #005A9C, 1px -1px 0 #005A9C, -1px 1px 0 #005A9C;
+    border-radius: 5px;
+    
+    font-variant: small-caps;
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!-- Declare root module for this page -->
+<html>
+  <head>
+    <meta charset=utf-8> 
+    <script src="js/angular.min.js"></script>
+    <!--<script src="js/bootstrap.min.js"></script>-->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/main.css" />
+  </head>
+
+  <body ng-app="shopList">
+    <div style="border: 1px solid black; width: 500px; height: 700px; padding:10px; margin:10px" ng-controller="myCtrl">
+        <h1 class="text-center" style="text-align:center;">Ma liste de courses</h1>
+		<div class="controls" style="text-align:center;">
+			<button type="button" class="btn btn-lg btn-success">↻</button>
+		</div>
+		<hr>
+        <div>
+		  <div class="list-group" ng-repeat="category in categories">
+			<span class="list-group-item grocery-title"><span style="cat-icon" ng-show="category.iconURL">ICON</span>{{category.name}}</span>
+			<ul> 
+				<li ng-repeat="item in category.items" ng-click="toggle(item)" ng-class="{incaddie: item.isInCaddie}">{{item.name}} <span style="quantity" ng-show="item.quantity > 1">({{item.quantity}})</span></li>
+			</ul>
+			<hr>
+		    </div>
+		</div>
+
+        <div class="footer">
+            <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="cleanUp()">J'ai fini mes courses !</button>
+            <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="toggleAddItem()">Ajouter un produit</button>
+        </div>
+
+        <div class="add-item" ng-show="showNewItem">
+            <br />
+            Nom: <input type="text" ng-model="newItem.name" /><br />
+            Catégorie: <select ng-model="newItem.category">
+              <option  ng-repeat="category in availableCat" value="{{category}}">{{category}}</option>
+            </select><br>
+            Quantité: <input type="number" ng-model="newItem.quantity" step="1" min="1"/><br />
+            <button type="button" class="btn btn-primary btn-lg btn-block" ng-click="addItem()">Ajouter !</button>
+        </div>
+    </div>
+  </body>
+</html>
+
+<script>
+var app = angular.module("shopList", []); 
+app.controller("myCtrl", function($scope) {
+    var grocerySocket = io.connect("/grocery");
+    $scope.availableCat = [
+        "Fruits et légumes",
+        "Boissons",
+        "Autre"
+    ];
+    $scope.newItem = {quantity:1};
+    $scope.showNewItem = false;
+    
+    grocerySocket.on("listCategories", function(categories){
+        $scope.categories = categories;
+        $scope.$apply();
+    });
+    
+    $scope.toggle = function(item) {
+        grocerySocket.emit('toggleItem', item);
+    };
+    
+    $scope.toggleAddItem = function(item) {
+        $scope.showNewItem = true;
+    };
+    $scope.addItem = function(item) {
+        grocerySocket.emit('addItem',$scope.newItem);
+        $scope.newItem = {quantity:1};
+        $scope.showNewItem = false;
+    };
+    $scope.cleanUp = function() {
+        grocerySocket.emit('cleanUp');
+    };
+});
+</script>
+<script src="/socket.io/socket.io.js"></script>
