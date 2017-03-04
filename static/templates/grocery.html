@@ -1,0 +1,32 @@
+<div class="grocery-list">
+	<h1 class="text-center" style="text-align:center;">Courses</h1>
+	<div class="controls" style="text-align:center;">
+		<button type="button" class="btn btn-lg btn-success">↻</button>
+	</div>
+	<hr>
+	<div>
+	  <div class="list-group" ng-repeat="category in categories">
+		<span class="list-group-item grocery-title"><span style="cat-icon" ng-show="category.iconURL">ICON</span>{{category.name}}</span>
+		<ul> 
+			<li ng-repeat="item in category.items" ng-click="toggle(item)" ng-class="{incaddie: item.isInCaddie}">{{item.name}} <span style="quantity" ng-show="item.quantity > 1">({{item.quantity}})</span></li>
+		</ul>
+		<hr>
+		</div>
+	</div>
+
+	<div class="footer">
+		<button type="button" class="btn btn-primary btn-lg btn-block" ng-click="cleanUp()">J'ai fini mes courses !</button>
+		<button type="button" class="btn btn-primary btn-lg btn-block" ng-click="toggleAddItem()">Ajouter un produit</button>
+	</div>
+
+	<div class="add-item" ng-show="showNewItem">
+		<br />
+		Nom: <input type="text" ng-model="newItem.name" /><br />
+		Catégorie: <select ng-model="newItem.category">
+		  <option  ng-repeat="category in availableCat" value="{{category}}">{{category}}</option>
+		</select><br>
+		Quantité: <input type="number" ng-model="newItem.quantity" step="1" min="1"/><br />
+		<button type="button" class="btn btn-primary btn-lg btn-block" ng-click="addItem()">Ajouter !</button>
+	</div>
+</div>
+ 
